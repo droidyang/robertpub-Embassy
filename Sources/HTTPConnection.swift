@@ -135,7 +135,9 @@ public final class HTTPConnection:TransportDelegate {
         // set SWSGI keys
         environ["swsgi.version"] = "0.1"
         environ["swsgi.url_scheme"] = "http"
-        environ["swsgi.input"] = swsgiInput
+        environ["swsgi.input"] = { [unowned self] (handler: ((Data) -> Void)?) in
+            self.swsgiInput(handler)
+        }
         // TODO: add output file for error
         environ["swsgi.error"] = ""
         environ["swsgi.multithread"] = false
@@ -145,7 +147,9 @@ public final class HTTPConnection:TransportDelegate {
         // set embassy specific keys
         environ["embassy.connection"] = self
         environ["embassy.event_loop"] = eventLoop
-        
+
+        environ["embassy.headers"] = headers
+
         if
             let bundle = Bundle(identifier: "com.envoy.Embassy"),
             let version = bundle.infoDictionary?["CFBundleShortVersionString"] as? String
