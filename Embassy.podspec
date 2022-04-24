@@ -1,8 +1,8 @@
 Pod::Spec.new do |spec|
   spec.name         = 'Embassy'
-  spec.version      = '4.1.0'
+  spec.version      = '4.1.1'
   spec.summary      = 'Lightweight async HTTP server in pure Swift for iOS/macOS UI Automatic testing data mocking'
-  spec.homepage     = 'https://github.com/envoy/Embassy'
+  spec.homepage     = 'https://github.com/robertpub/Loki-Embassy'
   spec.license      = 'MIT'
   spec.license      = { type: 'MIT', file: 'LICENSE' }
   spec.author             = { 'Fang-Pen Lin' => 'fang@envoy.com' }
@@ -11,7 +11,7 @@ Pod::Spec.new do |spec|
   spec.tvos.deployment_target = '11.0'
   spec.osx.deployment_target = '10.10'
   spec.source       = {
-    git: 'https://github.com/envoy/Embassy.git',
+    git: 'https://github.com/robertpub/Loki-Embassy.git',
     tag: "v#{spec.version}"
   }
   spec.source_files = 'Sources/**.swift', 'Sources/**/*.swift'

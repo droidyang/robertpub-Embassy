@@ -186,7 +186,7 @@ public final class Transport {
         } catch let OSError.ioError(number, message) {
             switch number {
             case EAGAIN:
-                break
+                fallthrough
                 // Apparently on macOS EPROTOTYPE can be returned when the socket is not
                 // fully shutdown (as an EPIPE would indicate). Here we treat them
                 // essentially the same since we just tear the transport down anyway.
