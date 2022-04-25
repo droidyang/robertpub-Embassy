@@ -52,7 +52,7 @@ public final class SelectorEventLoop: EventLoop {
         // Notice: we use a local copy of pipeReceiver to avoid referencing self
         // here, thus we won't have reference cycle problem
         let localPipeReceiver = pipeReceiver
-        setReader(pipeReceiver) {
+        try setReader(pipeReceiver) {
             // consume the pipe receiver, so that it won't keep triggering read event
             let size = PIPE_BUF
             var bytes = Data(count: Int(size))
@@ -72,20 +72,20 @@ public final class SelectorEventLoop: EventLoop {
         let _ = SystemLibrary.close(pipeReceiver)
     }
 
-    public func setReader(_ fileDescriptor: Int32, callback: @escaping () -> Void) {
+    public func setReader(_ fileDescriptor: Int32, callback: @escaping () -> Void) throws {
         // we already have the file descriptor in selector, unregister it then register
         if let key = selector[fileDescriptor] {
             let oldHandle = key.data as! CallbackHandle
             let handle = CallbackHandle(reader: callback, writer: oldHandle.writer)
-            try! selector.unregister(fileDescriptor)
-            try! selector.register(
+            try selector.unregister(fileDescriptor)
+            try selector.register(
                 fileDescriptor,
                 events: key.events.union([.read]),
                 data: handle
             )
         // register the new file descriptor
         } else {
-            try! selector.register(
+            try selector.register(
                 fileDescriptor,
                 events: [.read],
                 data: CallbackHandle(reader: callback)

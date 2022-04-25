@@ -17,7 +17,7 @@ public protocol EventLoop {
     /// Set a read-ready callback for given fileDescriptor
     ///  - Parameter fileDescriptor: target file descriptor
     ///  - Parameter callback: callback function to be triggered when file is ready to be read
-    func setReader(_ fileDescriptor: Int32, callback: @escaping () -> Void)
+    func setReader(_ fileDescriptor: Int32, callback: @escaping () -> Void) throws
 
     /// Remove reader callback for given fileDescriptor
     ///  - Parameter fileDescriptor: target file descriptor

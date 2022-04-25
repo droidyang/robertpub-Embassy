@@ -52,7 +52,7 @@ public final class DefaultHTTPServer: HTTPServer,HTTPConnectionDelegate {
         acceptSocket = try TCPSocket()
         try acceptSocket.bind(port: port, interface: interface)
         try acceptSocket.listen()
-        eventLoop.setReader(acceptSocket.fileDescriptor) { [unowned self] in
+        try eventLoop.setReader(acceptSocket.fileDescriptor) { [unowned self] in
             self.handleNewConnection()
         }
         logger.info("HTTP server running")

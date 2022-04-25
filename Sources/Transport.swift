@@ -60,7 +60,7 @@ public final class Transport {
         self.socket = socket
         self.eventLoop = eventLoop
         self.delegate = delegate
-        eventLoop.setReader(socket.fileDescriptor, callback: handleRead)
+        try? eventLoop.setReader(socket.fileDescriptor, callback: handleRead)
     }
     
     deinit {
