@@ -202,10 +202,18 @@ public final class TCPSocket {
     /// Close the socket
     func close() {
         _ = SystemLibrary.shutdown(fileDescriptor, Int32(SHUT_WR))
-        assert(fileDescriptor>0)
+        if isInvalidFileDescriptor(fileDescriptor: fileDescriptor) {return}
         _ = SystemLibrary.close(fileDescriptor)
     }
 
+    func isInvalidFileDescriptor(fileDescriptor:Int32)->Bool{
+        var flags:CInt = 0
+        guard fcntl(fileDescriptor,F_GETFL,&flags) > 0  else {
+            return true
+        }
+        return false
+    }
+    
     func getPeerName() throws -> (String, Int) {
         return try getName(function: getpeername)
     }
