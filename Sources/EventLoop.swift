@@ -21,7 +21,7 @@ public protocol EventLoop {
 
     /// Remove reader callback for given fileDescriptor
     ///  - Parameter fileDescriptor: target file descriptor
-    func removeReader(_ fileDescriptor: Int32)
+    func removeReader(_ fileDescriptor: Int32) throws
 
     /// Set a write-ready callback for given fileDescriptor
     ///  - Parameter fileDescriptor: target file descriptor

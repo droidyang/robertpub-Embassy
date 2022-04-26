@@ -67,7 +67,7 @@ public final class SelectorEventLoop: EventLoop {
 
     deinit {
         stop()
-        removeReader(pipeReceiver)
+        try? removeReader(pipeReceiver)
         let _ = SystemLibrary.close(pipeSender)
         let _ = SystemLibrary.close(pipeReceiver)
     }
@@ -93,11 +93,11 @@ public final class SelectorEventLoop: EventLoop {
         }
     }
 
-    public func removeReader(_ fileDescriptor: Int32) {
+    public func removeReader(_ fileDescriptor: Int32) throws{
         guard let key = selector[fileDescriptor] else {
             return
         }
-        try! selector.unregister(fileDescriptor)
+        try selector.unregister(fileDescriptor)
         let newEvents = key.events.subtracting([.read])
         guard !newEvents.isEmpty else {
             return

@@ -202,6 +202,7 @@ public final class TCPSocket {
     /// Close the socket
     func close() {
         _ = SystemLibrary.shutdown(fileDescriptor, Int32(SHUT_WR))
+        assert(fileDescriptor>0)
         _ = SystemLibrary.close(fileDescriptor)
     }
 

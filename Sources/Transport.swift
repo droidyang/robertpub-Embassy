@@ -64,7 +64,7 @@ public final class Transport {
     }
     
     deinit {
-        eventLoop.removeReader(socket.fileDescriptor)
+        try? eventLoop.removeReader(socket.fileDescriptor)
         eventLoop.removeWriter(socket.fileDescriptor)
     }
     
@@ -111,7 +111,7 @@ public final class Transport {
     
     private func closedByPeer() {
         closed = true
-        eventLoop.removeReader(socket.fileDescriptor)
+        try? eventLoop.removeReader(socket.fileDescriptor)
         eventLoop.removeWriter(socket.fileDescriptor)
         self.delegate?.closedCallback(.byPeer)
         socket.close()
@@ -159,7 +159,7 @@ public final class Transport {
             if closing {
                 closed = true
                 eventLoop.removeWriter(socket.fileDescriptor)
-                eventLoop.removeReader(socket.fileDescriptor)
+                try? eventLoop.removeReader(socket.fileDescriptor)
                 self.delegate?.closedCallback(.byLocal)
                 socket.close()
             }
@@ -175,7 +175,7 @@ public final class Transport {
                 eventLoop.removeWriter(socket.fileDescriptor)
                 if closing {
                     closed = true
-                    eventLoop.removeReader(socket.fileDescriptor)
+                   try? eventLoop.removeReader(socket.fileDescriptor)
                     //                    if let callback = closedCallback {
                     //                        callback(.byLocal)
                     //                    }

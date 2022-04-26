@@ -63,7 +63,7 @@ public final class DefaultHTTPServer: HTTPServer,HTTPConnectionDelegate {
             logger.error("Server not started")
             return
         }
-        eventLoop.removeReader(acceptSocket.fileDescriptor)
+        try? eventLoop.removeReader(acceptSocket.fileDescriptor)
         acceptSocket.close()
         for connection in connections {
             connection.close()
